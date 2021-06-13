@@ -81,8 +81,11 @@ void insertion_sort(int *p_array, int size)
     }
 }
 
-void position_pivot_in_the_end(int *p_array, int first_index, int last_index)
+int partition(int *p_array, int first_index, int last_index)
 {
+    int index_from_left;
+    int index_from_right;
+
     int center_index = (first_index + last_index) / 2;
 
     //posiciona o pivot no centro do array como a mediana entre o primeiro, último e elemento central.
@@ -92,45 +95,32 @@ void position_pivot_in_the_end(int *p_array, int first_index, int last_index)
 
     //posiciona o pivot no final do array
     swap((p_array + center_index), (p_array + last_index));
-}
 
-int swap_element_from_right_with_element_from_left(int *p_array, int index_from_left, int index_from_right, int pivot_value)
-{
+    while (1)
+    {
 
-    //posiciona o index of elemento from left no primeiro elemento maior que o pivot
-    for (; *(p_array + index_from_left) < pivot_value; index_from_left++)
-        ;
+        //posiciona o index of elemento from left no primeiro elemento maior que o pivot
+        for (; *(p_array + index_from_left) < *(p_array + last_index); index_from_left++)
+            ;
 
-    //posiciona o index of elemento from right no primeiro elemento menor que o pivot
-    for (; *(p_array + index_from_right) > pivot_value; index_from_right--)
-        ;
+        //posiciona o index of elemento from right no primeiro elemento menor que o pivot
+        for (; *(p_array + index_from_right) > *(p_array + last_index); index_from_right--)
+            ;
 
-    // se o indice da esquerda for maior ou igual que o da direita significa que todos os menores elementos estão a esuqerda de todos os maiores elementos que o pivot
-    if (index_from_left >= index_from_right)
-        return index_from_right + 1;
+        // se o indice da esquerda for maior ou igual que o da direita significa que todos os menores elementos estão a esquerda de todos os maiores elementos que o pivot
+        if (index_from_left >= index_from_right)
+            break;
 
-    //inverte as posições do elemento a esquerda e a direita
-    swap((p_array + index_from_left), (p_array + index_from_right));
-
-    //chama a função recursivamente para continuar a inverter elementos a esquerda e a direita
-    return swap_element_from_right_with_element_from_left(p_array, index_from_left, index_from_right, pivot_value);
-}
-
-int partition(int *p_array, int first_index, int last_index)
-{
-    // posiciona o pivot no final do array
-    position_pivot_in_the_end(p_array, first_index, last_index);
-    int pivot_index = last_index;
-    int correct_pivot_index;
-
-    //inverte elementos a esquerda do pivot que deveriam estar a direita com os a direita que deveriam estar a esquerda
-    correct_pivot_index = swap_element_from_right_with_element_from_left(p_array, first_index, last_index - 1, *(p_array + pivot_index));
+        //inverte as posições do elemento a esquerda e a direita
+        swap((p_array + index_from_left), (p_array + index_from_right));
+    }
 
     //por último troca-se a posição do pivot com o primeiro maior elemento encontrado
-    swap((p_array + correct_pivot_index), (p_array + pivot_index));
+    swap((p_array + index_from_right + 1), (p_array + last_index));
 
-    return correct_pivot_index;
+    return index_from_right + 1;
 }
+
 void quick_sort(int *p_array, int first_index, int last_index)
 {
     //condição da chamada recursiva do quick sort
@@ -142,7 +132,7 @@ void quick_sort(int *p_array, int first_index, int last_index)
     if ((pivot_index <= first_index) || (pivot_index >= last_index))
         return;
 
-    quick_sort(p_array, first_index, pivot_index - 1);
+    quick_sort(p_array, first_index, pivot_index);
     quick_sort(p_array, pivot_index + 1, last_index);
 }
 
@@ -218,27 +208,27 @@ void test(void)
     int *merge_sorted = copy_array(p_array, array_size);
     int *quick_sorted = copy_array(p_array, array_size);
 
-    printf("\nBubble Sort:");
-    bubble_sort(bubble_sorted, array_size);
-    print_array(bubble_sorted, 0, array_size - 1);
+    // printf("\nBubble Sort:");
+    // bubble_sort(bubble_sorted, array_size);
+    // print_array(bubble_sorted, 0, array_size - 1);
 
-    printf("\nSelection Sort:");
-    selection_sort(selection_sorted, array_size);
-    print_array(selection_sorted, 0, array_size - 1);
+    // printf("\nSelection Sort:");
+    // selection_sort(selection_sorted, array_size);
+    // print_array(selection_sorted, 0, array_size - 1);
 
-    printf("\nInsertion Sort:");
-    insertion_sort(insertion_sorted, array_size);
-    print_array(insertion_sorted, 0, array_size - 1);
+    // printf("\nInsertion Sort:");
+    // insertion_sort(insertion_sorted, array_size);
+    // print_array(insertion_sorted, 0, array_size - 1);
 
-    printf("\nMerge Sort:");
-    merge_sort(merge_sorted, 0, array_size - 1);
-    print_array(merge_sorted, 0, array_size - 1);
+    // printf("\nMerge Sort:");
+    // merge_sort(merge_sorted, 0, array_size - 1);
+    // print_array(merge_sorted, 0, array_size - 1);
 
     printf("\nQuick Sort:");
     quick_sort(quick_sorted, 0, array_size - 1);
     print_array(quick_sorted, 0, array_size - 1);
-    
-    printf("Test finished");
+
+    printf("\nTest finished");
 }
 
 int main()

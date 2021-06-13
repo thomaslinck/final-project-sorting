@@ -206,7 +206,7 @@ void test(void)
     // int array_size = sizeof(test_array) / sizeof(test_array[0]);
     // int *p_array = test_array;
 
-    int array_size = 5000;
+    int array_size = 500;
     int *p_array = build_array(array_size);
 
     printf("\nOriginal Array:");
@@ -218,25 +218,27 @@ void test(void)
     int *merge_sorted = copy_array(p_array, array_size);
     int *quick_sorted = copy_array(p_array, array_size);
 
-    // printf("\nBubble Sort:");
-    // bubble_sort(bubble_sorted, array_size);
-    // print_array(bubble_sorted, 0, array_size - 1);
+    printf("\nBubble Sort:");
+    bubble_sort(bubble_sorted, array_size);
+    print_array(bubble_sorted, 0, array_size - 1);
 
-    // printf("\nSelection Sort:");
-    // selection_sort(selection_sorted, array_size);
-    // print_array(selection_sorted, 0, array_size - 1);
+    printf("\nSelection Sort:");
+    selection_sort(selection_sorted, array_size);
+    print_array(selection_sorted, 0, array_size - 1);
 
-    // printf("\nInsertion Sort:");
-    // insertion_sort(insertion_sorted, array_size);
-    // print_array(insertion_sorted, 0, array_size - 1);
+    printf("\nInsertion Sort:");
+    insertion_sort(insertion_sorted, array_size);
+    print_array(insertion_sorted, 0, array_size - 1);
 
-    // printf("\nMerge Sort:");
-    // merge_sort(merge_sorted, 0, array_size - 1);
-    // print_array(merge_sorted, 0, array_size - 1);
+    printf("\nMerge Sort:");
+    merge_sort(merge_sorted, 0, array_size - 1);
+    print_array(merge_sorted, 0, array_size - 1);
 
     printf("\nQuick Sort:");
     quick_sort(quick_sorted, 0, array_size - 1);
     print_array(quick_sorted, 0, array_size - 1);
+    
+    printf("Test finished");
 }
 
 int main()
